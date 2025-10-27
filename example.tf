@@ -2,11 +2,11 @@ module "azure_vnet_vm" {
   source = "./"
 
   # Resource Group & Location
-  resource_group_name = "rg-demo"
+  resource_group_name = "rg-name"
   location            = "East US"
 
   # Virtual Network Configuration
-  vnet_name             = "demo-vnet"
+  vnet_name             = "vnet-name"
   vnet_address_space    = ["10.0.0.0/16"]
   public_subnet_name    = "public-subnet"
   public_subnet_prefix  = ["10.0.1.0/24"]
