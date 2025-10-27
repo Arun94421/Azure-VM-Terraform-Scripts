@@ -2,7 +2,7 @@
 
 This Terraform module sets up a **Virtual Network (VNet)** with both **public and private subnets**, a **Network Security Group (NSG)**, and a **Linux Virtual Machine (VM)** in the private subnet. 
 
-**Important:** This module integrates with **Azure Key Vault** to fetch sensitive values (like the admin username and SSH public key) securely during runtime.
+This module integrates with **Azure Key Vault** to fetch sensitive values (like the admin username and SSH public key) securely during runtime.
 
 ## Prerequisites
 
