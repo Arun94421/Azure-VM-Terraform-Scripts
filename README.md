@@ -1,4 +1,4 @@
-1. # Azure Terraform Module - VNet + VM in Private Subnet
+# Azure Terraform Module - VM creation using Vnet & Subnets
 
 ## Overview
 This Terraform module creates:
@@ -20,5 +20,23 @@ This Terraform module creates:
    git clone <repo_url>
    cd azure-vnet-vm-module
 # Azure-VM-Terraform-Scripts
-2. Initialize Terrafofrm
-   terraform init
+
+2. Initialize Terrafofrm:
+      terraform init
+   
+3. Validate Configuration:
+      terraform validate
+
+4. Plan the deployment:
+      terraform plan
+   
+5. Apply the configuration
+      terraform apply
+
+6. View outputs:
+      terraform output
+  
+7. Destroy resources:
+      terraform destroy
+
+       
