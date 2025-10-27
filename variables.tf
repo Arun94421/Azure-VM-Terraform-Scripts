@@ -1,61 +1,91 @@
+# Resource Group & Location
 variable "resource_group_name" {
-  description = "Resource group name"
+  description = "The name of the Azure Resource Group"
   type        = string
 }
 
 variable "location" {
-  description = "Azure region"
+  description = "The Azure region where the resources will be created"
   type        = string
-  default     = "East US"
 }
 
+# Virtual Network Configuration
 variable "vnet_name" {
-  description = "VNet name"
+  description = "The name of the Virtual Network"
   type        = string
 }
 
 variable "vnet_address_space" {
-  description = "Address space for the VNet"
+  description = "The address space for the Virtual Network"
   type        = list(string)
 }
 
 variable "public_subnet_name" {
-  description = "Name of the public subnet"
+  description = "The name of the public subnet"
   type        = string
 }
 
 variable "public_subnet_prefix" {
-  description = "Address prefix for the public subnet"
+  description = "The address prefix for the public subnet"
   type        = list(string)
 }
 
 variable "private_subnet_name" {
-  description = "Name of the private subnet"
+  description = "The name of the private subnet"
   type        = string
 }
 
 variable "private_subnet_prefix" {
-  description = "Address prefix for the private subnet"
+  description = "The address prefix for the private subnet"
   type        = list(string)
 }
 
+# VM Configuration
 variable "vm_name" {
-  description = "Name of the virtual machine"
+  description = "The name of the Virtual Machine"
   type        = string
 }
 
 variable "vm_size" {
-  description = "Size of the VM"
-  type        = string
-  default     = "Standard_B1s"
-}
-
-variable "admin_username" {
-  description = "Admin username for the VM"
+  description = "The size of the Virtual Machine"
   type        = string
 }
 
-variable "ssh_public_key_path" {
-  description = "Path to SSH public key"
+# Key Vault Integration - Secrets
+variable "key_vault_name" {
+  description = "The name of the Azure Key Vault"
   type        = string
+}
+
+variable "key_vault_rg_name" {
+  description = "The resource group name where the Key Vault is located"
+  type        = string
+}
+
+variable "key_vault_admin_username_secret_name" {
+  description = "The name of the secret in Key Vault that holds the VM admin username"
+  type        = string
+}
+
+variable "key_vault_ssh_key_secret_name" {
+  description = "The name of the secret in Key Vault that holds the SSH public key"
+  type        = string
+}
+
+# VM Image Configuration
+variable "vm_image" {
+  description = "The configuration for the VM image (publisher, offer, sku, version)"
+  type = object({
+    publisher = string
+    offer     = string
+    sku       = string
+    version   = string
+  })
+}
+
+# Tags (Optional)
+variable "tags" {
+  description = "Tags to apply to all resources"
+  type        = map(string)
+  default     = {}
 }
