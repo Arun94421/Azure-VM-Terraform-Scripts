@@ -1,42 +1,31 @@
-# Azure Terraform Module - VM creation using Vnet & Subnets
+# Terraform Azure VNet and VM Setup with Key Vault Integration
 
-## Overview
-This Terraform module creates:
-- One Resource Group  
-- One Virtual Network  
-- One Public Subnet and One Private Subnet  
-- NSG for private subnet  
-- A Linux VM inside the private subnet  
+This Terraform module sets up a **Virtual Network (VNet)** with both **public and private subnets**, a **Network Security Group (NSG)**, and a **Linux Virtual Machine (VM)** in the private subnet. 
 
-##  Prerequisites
-- Install [Terraform](https://developer.hashicorp.com/terraform/downloads)
-- Install [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli)
-- Run `az login` to authenticate your Azure account
-- Ensure you have an SSH public key locally (e.g., `~/.ssh/id_rsa.pub`)
+**Important:** This module integrates with **Azure Key Vault** to fetch sensitive values (like the admin username and SSH public key) securely during runtime.
 
-## Steps to Deploy
-1. Clone this repository:
-   ```bash
-   git clone <repo_url>
-   cd azure-vnet-vm-module
-# Azure-VM-Terraform-Scripts
+## Prerequisites
 
-2. Initialize Terrafofrm:
-      terraform init
-   
-3. Validate Configuration:
-      terraform validate
+- You must have an **Azure Subscription** and proper permissions.
+- **Terraform** installed (version 1.5+).
+- A **Key Vault** in your Azure subscription containing:
+  - A secret for the **admin username** (`vm-admin-username`).
+  - A secret for the **SSH public key** (`vm-ssh-public-key`).
 
-4. Plan the deployment:
-      terraform plan
-   
-5. Apply the configuration
-      terraform apply
+## Module Overview
 
-6. View outputs:
-      terraform output
-  
-7. Destroy resources:
-      terraform destroy
+The module will create:
+1. A **Resource Group**.
+2. A **Virtual Network** with public and private subnets.
+3. A **Network Security Group (NSG)** for the private subnet.
+4. A **Linux Virtual Machine (VM)** in the private subnet.
+5. The **VM's admin credentials** (username and SSH key) are retrieved securely from an **Azure Key Vault**.
 
-       
+## Usage
+
+### Step 1: Set up your Key Vault in Azure
+
+1. **Create a Key Vault** (if not already created).
+2. Add the following secrets to the Key Vault:
+   - **`vm-admin-username`**: The admin username for the VM.
+   - **`vm-ssh-public-key`**: The SSH public key used for authentication.
