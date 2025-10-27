@@ -6,7 +6,7 @@ This module integrates with **Azure Key Vault** to fetch sensitive values (like 
 
 ## Prerequisites
 
-- You must have an **Azure Subscription** and proper permissions.
+- Must have an **Azure Subscription** and proper permissions.
 - **Terraform** installed (version 1.5+).
 - A **Key Vault** in your Azure subscription containing:
   - A secret for the **admin username** (`vm-admin-username`).
