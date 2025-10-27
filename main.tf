@@ -12,13 +12,17 @@ provider "azurerm" {
   features {}
 }
 
+# ------------------------------------------------------------
 # Resource Group
+# ------------------------------------------------------------
 resource "azurerm_resource_group" "rg" {
   name     = var.resource_group_name
   location = var.location
 }
 
+# ------------------------------------------------------------
 # Virtual Network
+# ------------------------------------------------------------
 resource "azurerm_virtual_network" "vnet" {
   name                = var.vnet_name
   address_space       = var.vnet_address_space
@@ -26,7 +30,9 @@ resource "azurerm_virtual_network" "vnet" {
   resource_group_name = azurerm_resource_group.rg.name
 }
 
+# ------------------------------------------------------------
 # Public Subnet
+# ------------------------------------------------------------
 resource "azurerm_subnet" "public" {
   name                 = var.public_subnet_name
   resource_group_name  = azurerm_resource_group.rg.name
@@ -34,7 +40,9 @@ resource "azurerm_subnet" "public" {
   address_prefixes     = var.public_subnet_prefix
 }
 
+# ------------------------------------------------------------
 # Private Subnet
+# ------------------------------------------------------------
 resource "azurerm_subnet" "private" {
   name                 = var.private_subnet_name
   resource_group_name  = azurerm_resource_group.rg.name
@@ -42,7 +50,9 @@ resource "azurerm_subnet" "private" {
   address_prefixes     = var.private_subnet_prefix
 }
 
-# Network Security Group for private subnet
+# ------------------------------------------------------------
+# Network Security Group (Private Subnet)
+# ------------------------------------------------------------
 resource "azurerm_network_security_group" "private_nsg" {
   name                = "${var.private_subnet_name}-nsg"
   location            = azurerm_resource_group.rg.location
@@ -79,7 +89,30 @@ resource "azurerm_subnet_network_security_group_association" "private_assoc" {
   network_security_group_id = azurerm_network_security_group.private_nsg.id
 }
 
+# ------------------------------------------------------------
+# Key Vault Access - Fetch Admin Username & SSH Key
+# ------------------------------------------------------------
+
+data "azurerm_key_vault" "kv" {
+  name                = var.key_vault_name
+  resource_group_name = var.key_vault_rg_name
+}
+
+# Admin username secret
+data "azurerm_key_vault_secret" "admin_username" {
+  name         = var.key_vault_admin_username_secret_name
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
+
+# SSH public key secret (or password if using password auth)
+data "azurerm_key_vault_secret" "ssh_public_key" {
+  name         = var.key_vault_ssh_key_secret_name
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
+
+# ------------------------------------------------------------
 # Network Interface for VM
+# ------------------------------------------------------------
 resource "azurerm_network_interface" "vm_nic" {
   name                = "${var.vm_name}-nic"
   location            = azurerm_resource_group.rg.location
@@ -92,20 +125,23 @@ resource "azurerm_network_interface" "vm_nic" {
   }
 }
 
-# Virtual Machine in private subnet
+# ------------------------------------------------------------
+# Virtual Machine in Private Subnet
+# ------------------------------------------------------------
 resource "azurerm_linux_virtual_machine" "vm" {
   name                = var.vm_name
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   size                = var.vm_size
-  admin_username      = var.admin_username
+  admin_username      = data.azurerm_key_vault_secret.admin_username.value
+
   network_interface_ids = [
     azurerm_network_interface.vm_nic.id
   ]
 
   admin_ssh_key {
-    username   = var.admin_username
-    public_key = file(var.ssh_public_key_path)
+    username   = data.azurerm_key_vault_secret.admin_username.value
+    public_key = data.azurerm_key_vault_secret.ssh_public_key.value
   }
 
   os_disk {
@@ -119,4 +155,6 @@ resource "azurerm_linux_virtual_machine" "vm" {
     sku       = "22_04-lts"
     version   = "latest"
   }
+
+  tags = var.tags
 }
