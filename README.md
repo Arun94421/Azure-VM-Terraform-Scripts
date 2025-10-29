@@ -1,4 +1,4 @@
-# Terraform Azure VNet and VM Setup with Key Vault Integration
+# Terraform Azure VNet and VM Setup
 
 This Terraform module sets up a **Virtual Network (VNet)** with both **public and private subnets**, a **Network Security Group (NSG)**, and a **Linux Virtual Machine (VM)** in the private subnet. 
 
