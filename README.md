@@ -142,7 +142,7 @@ Once your authentication is set up and you have verified your subscription, you 
 
 #### 5. **Variable Configuration**
 
-In the provided Terraform script, several variables are used (e.g., `var.resource_group_name`, `var.location`, `var.vnet_name`). You will need to define these variables either in a `.tfvars` file or directly in the command line when running Terraform.
+In the provided Terraform script, several variables are used (e.g., `var.resource_group_name`, `var.location`, `var.vnet_name`). Need to define these variables either in a `.tfvars` file or directly in the command line when running Terraform.
 
 Example:
 
