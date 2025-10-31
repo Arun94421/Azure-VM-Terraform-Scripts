@@ -1,0 +1,5 @@
+nic_name             = "my-nic"
+location            = "East US"
+resource_group_name = "my-resource-group"
+ip_configuration_name = "my-ip-config"
+subnet_id           = "/subscriptions/your-subscription-id/resourceGroups/my-resource-group/providers/Microsoft.Network/virtualNetworks/my-vnet/subnets/my-subnet"
