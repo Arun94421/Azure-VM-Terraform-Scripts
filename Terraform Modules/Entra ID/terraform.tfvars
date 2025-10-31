@@ -1,0 +1,5 @@
+user_principal_name   = "exampleuser@yourdomain.com"
+user_display_name     = "Example User"
+user_mail_nickname    = "exampleuser"
+user_password         = "YourPasswordHere"
+group_display_name    = "ExampleGroup"
