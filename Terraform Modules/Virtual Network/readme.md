@@ -1,7 +1,5 @@
 # Azure Virtual Network Terraform Module
 
-This is a reusable Terraform module for creating an Azure Virtual Network (VNet) with a subnet.
-
 ## Steps to configure and use
 
 ### 1. Install Terraform
